@@ -1,0 +1,22 @@
+---
+
+# /vars/main.yml for ansible-ntpd role.
+
+# The 0, 1, 2 and 3.pool.ntp.org names point to a random set of servers that
+# will change every hour.
+ntpd_sources:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+
+ntpd_package_state: latest
+
+# override within the group_vars file of your stratum servers
+
+# By default, hosts on local network are less restricted.
+# Override this for more specifics needs
+ntpd_restrict:
+  - restrict 10.0.0.0 mask 255.0.0.0 nomodify notrap nopeer
+  - restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap nopeer
+  - restrict 172.16.0.0 mask 255.240.0.0 nomodify notrap nopeer
