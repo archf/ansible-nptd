@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: "Felix Archambault"
+  description: Install and configure ntpd on target host
   license: BSD
   platforms:
    - name: EL
@@ -18,6 +19,7 @@ galaxy_info:
       - quantal
       - raring
       - saucy
-  categories:
-   - development
+  galaxy_tags:
+   - ntp
+   - system
 dependencies: []

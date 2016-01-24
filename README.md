@@ -1,8 +1,10 @@
 ansible-ntpd
 ============
 
-Install and configure ntpd on rhel and debian hosts hosts. This is only
+Install and configure ntpd on rhel and debian hosts. This is only
 suitable for client-server mode.
+
+Target can either be a ntpd server or a ntpd client.
 
 Requirements
 ------------
@@ -12,8 +14,7 @@ None.
 Role Variables
 --------------
 
-The variables that can be passed to this role and a brief description about
-them are as follows. See the NTP configuration documentation for details:
+Here are the variables as well as the defaults:
 
 ```yaml
 # The 0, 1, 2 and 3.pool.ntp.org names point to a random set of servers that
@@ -31,6 +32,9 @@ ntpd_restrict:
   - restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap nopeer
   - restrict 172.16.0.0 mask 255.240.0.0 nomodify notrap nopeer
 
+# no stats logging
+ntpd_log_stats: no
+
 # undefined crypto settings
 ntpd_crypto: ''
 ntpd_includefile: ''
@@ -39,6 +43,8 @@ ntpd_trustedkey: ''
 ntpd_requestkey: ''
 ntpd_controlkey: ''
 ```
+
+Settings above work well for simple ntp clients.
 
 See templates/ntp.conf.j2 for other defaults.
 
@@ -50,7 +56,7 @@ Install ntp and set the default settings.
 ```yaml
   - hosts: all
     roles:
-      - role: ntpd
+      - role: archf.ntpd
 ```
 
 Dependencies
@@ -58,10 +64,16 @@ Dependencies
 
 None
 
+Todo
+-----
+
+- add peer support
+- improve statistics configuration
+
 License
 -------
 
-MIT
+BSD
 
 Author Information
 ------------------
