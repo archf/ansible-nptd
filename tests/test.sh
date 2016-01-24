@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# requence of commands to validate ntpd clients and
+# sequence of commands to validate ntpd clients and
 # server behavior
 
 # check sources

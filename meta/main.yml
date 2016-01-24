@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: "Felix Archambault"
-  description: Install and configure ntpd on target host
+  description: Install and configure ntpd on a target host.
   license: BSD
   platforms:
    - name: EL
