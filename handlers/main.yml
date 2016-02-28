@@ -2,3 +2,5 @@
 
 - name: restart ntpd
   service: name={{ ntpd_svc_name }} state=restarted enabled=yes
+  when: ntpd_enabled
+
