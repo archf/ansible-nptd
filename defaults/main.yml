@@ -27,4 +27,4 @@ ntpd_restrict:
 ntpd_log_stats: no
 
 # undefined crypto settings
-ntpd_crypto: ''
+# ntpd_crypto: ''
