@@ -7,12 +7,12 @@
 - name: Install ntp packages
   apt: name={{ ntpd_pkgs }} state={{ ntpd_pkg_state }}
   tags: [ntpd]
-  when: ansible_os_family == "Debian" and ansible_version < 2
+  when: ansible_os_family == "Debian"
 
 - name: main | installing ntp package
   yum: name={{ ntpd_pkgs }} state={{ ntpd_pkg_state }}
   tags: [ntpd]
-  when: ansible_os_family == "RedHat" and ansible_version < 2
+  when: ansible_os_family == "RedHat"
 
 
 
