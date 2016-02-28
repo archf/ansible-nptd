@@ -7,6 +7,19 @@
 - name: Install ntp packages
   package: name={{ ntpd_pkgs }} state={{ ntpd_pkg_state }}
   tags: ntp
+  when: ansible_version >= 2
+
+- name: Install ntp packages
+  apt: name={{ ntpd_pkgs }} state={{ ntpd_pkg_state }}
+  tags: [ntpd]
+  when: ansible_os_family == "Debian" and ansible_version < 2
+
+- name: main | installing ntp package
+  yum: name={{ ntpd_pkgs }} state={{ ntpd_pkg_state }}
+  tags: [ntpd]
+  when: ansible_os_family == "RedHat" and ansible_version < 2
+
+
 
 - name: Copy the ntp.conf template file
   template: src=ntp.conf.j2 dest=/etc/ntp.conf
