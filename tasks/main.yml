@@ -19,3 +19,10 @@
   notify:
    - restart ntpd
   tags: ntp
+
+- name: start/stop/enable ntpd service
+  service:
+    name: "{{ ntpd_svc_name }}"
+    state: "{{ ntpd_state }}"
+    enabled: "{{ ntpd_enabled }}"
+  tags: ntp

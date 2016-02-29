@@ -2,6 +2,10 @@
 
 # /vars/main.yml for ansible-ntpd role.
 
+# is ntp enabled?
+ntpd_enabled: true
+ntpd_state: "started"
+
 # The 0, 1, 2 and 3.pool.ntp.org names point to a random set of servers that
 # will change every hour.
 ntpd_sources:

@@ -17,6 +17,13 @@ Role Variables
 Here are the variables as well as the defaults:
 
 ```yaml
+
+# Is ntp enabled on reboot? (default: true)
+ntpd_enabled: true
+
+# What state should this role set ntp service to
+ntpd_state: "started"
+
 # The 0, 1, 2 and 3.pool.ntp.org names point to a random set of servers that
 # will change every hour. See http://www.pool.ntp.org/en/use.html
 ntpd_sources:
