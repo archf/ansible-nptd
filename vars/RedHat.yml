@@ -1,6 +1,5 @@
 ---
 ntpd_pkgs:
-  - libselinux-python
   - ntp
 
 ntpd_svc_name: ntpd

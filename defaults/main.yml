@@ -1,9 +1,9 @@
 ---
 
-# /vars/main.yml for ansible-ntpd role.
+# enable service
+ntpd_enabled: yes
 
-# is ntp enabled?
-ntpd_enabled: true
+# start service by default
 ntpd_state: "started"
 
 # The 0, 1, 2 and 3.pool.ntp.org names point to a random set of servers that
