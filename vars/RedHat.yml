@@ -3,3 +3,5 @@ ntpd_pkgs:
   - ntp
 
 ntpd_svc_name: ntpd
+
+ntpd_keysfile: "/etc/ntp/keys"

@@ -48,7 +48,9 @@ includefile /etc/ntp/crypto/pw
 
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.
-keys /etc/ntp/keys
+{% if ntpd_keysfile is defined %}
+keys {{ ntpd_keysfile }}
+{% endif %}
 
 # Specify the key identifiers which are trusted ex:.
 #trustedkey 4 8 42
