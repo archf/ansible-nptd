@@ -2,7 +2,9 @@
 galaxy_info:
   author: "Felix Archambault"
   description: Install and configure ntpd on a target host.
+  min_ansible_version: 1.9
   license: BSD
+
   platforms:
    - name: EL
      versions:

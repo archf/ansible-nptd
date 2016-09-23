@@ -1,39 +1,100 @@
-ansible-ntpd
-============
+# ansible-ntpd
 
-Install and configure ntpd on rhel and debian hosts. This is only
-suitable for client-server mode.
+Install and configure ntpd on a target host.
 
-Target can either be a ntpd server or a ntpd client.
+## Requirements
 
-Requirements
-------------
+### Ansible version
 
-None.
+Minimum required ansible version is 1.9.
 
-Role Variables
---------------
+## Description
 
-Here are the variables as well as the defaults:
+Install and configure ntpd on rhel and debian hosts. This is only suitable
+for client-server mode. Target can either be a ntpd server or a ntpd client.
+
+Settings above work well for simple ntp clients.  See `templates/ntp.conf.j2`
+for other defaults.
+
+
+## Role Variables
+
+### Variables conditionally loaded
+
+Those variables from `vars/*.{yml,json}` are loaded dynamically during task
+runtime using the `include_vars` module.
+
+Variables loaded from `vars/Suse.yml`.
 
 ```yaml
+ntpd_pkgs:
+  - python-selinux
+  - ntp
 
-# Is ntp enabled on reboot? (default: true)
-ntpd_enabled: true
+ntpd_svc_name: ntp
 
-# What state should this role set ntp service to
+# Deliberately left indefined.
+# see https://bugzilla.novell.com/show_bug.cgi?id=542098
+# ntpd_keysfile: "/etc/ntp.keys"
+
+```
+
+Variables loaded from `vars/Debian.yml`.
+
+```yaml
+ntpd_pkgs:
+  - ntp
+
+ntpd_svc_name: ntp
+
+ntpd_keysfile: "/etc/ntp/keys"
+
+```
+
+Variables loaded from `vars/RedHat.yml`.
+
+```yaml
+ntpd_pkgs:
+  - ntp
+
+ntpd_svc_name: ntpd
+
+ntpd_keysfile: "/etc/ntp/keys"
+
+```
+
+### Default vars
+
+Defaults from `defaults/main.yml`.
+
+```yaml
+# Enable/disable ntpd service.
+ntpd_enabled: yes
+
+# Stop/start ntpd service
 ntpd_state: "started"
 
-# The 0, 1, 2 and 3.pool.ntp.org names point to a random set of servers that
-# will change every hour. See http://www.pool.ntp.org/en/use.html
+# Define ntpd sources. The [0-3].pool.ntp.org names point to a random set of
+# servers that will change every hour.
 ntpd_sources:
-  - 0.ca.pool.ntp.org
-  - 1.ca.pool.ntp.org
-  - 2.ca.pool.ntp.org
-  - 3.ca.pool.ntp.org
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
 
-# By default, hosts on local network are less restricted.
-# Override this for more specifics needs
+# Install (`present', `latest'), or remove (`absent') a package.
+ntpd_pkg_state: latest
+
+# Restrict statements within `ntpd_restrict` will relax defaults from
+# configuration file template which are:
+#   *restrict -4 default limited kod nomodify notrap nopeer noquery
+#   *restrict -6 default limited kod nomodify notrap nopeer noquery
+
+# By default, client hosts on local network are less restricted. Override this
+# for more specifics needs. Elements of this list will be literally inserted
+# into ntp.conf. You could define defaults for those for each of your dev,
+# staging and production environnement and also create groups for your stratum
+# servers.
 ntpd_restrict:
   - restrict 10.0.0.0 mask 255.0.0.0 nomodify notrap nopeer
   - restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap nopeer
@@ -43,46 +104,88 @@ ntpd_restrict:
 ntpd_log_stats: no
 
 # undefined crypto settings
-ntpd_crypto: ''
-ntpd_includefile: ''
-ntpd_keys: ''
-ntpd_trustedkey: ''
-ntpd_requestkey: ''
-ntpd_controlkey: ''
+# ntpd_crypto: ''
+
 ```
 
-Settings above work well for simple ntp clients.
 
-See templates/ntp.conf.j2 for other defaults.
+## Installation
 
-Examples
---------
+### Install with Ansible Galaxy
 
-Install ntp and set the default settings.
+```shell
+ansible-galaxy install archf.ntpd
+```
+
+Basic usage is:
 
 ```yaml
-  - hosts: all
-    roles:
-      - role: archf.ntpd
+- hosts: all
+  roles:
+    - role: archf.ntpd
 ```
 
-Dependencies
-------------
+### Install with git
 
-None
+If you do not want a global installation, clone it into your `roles_path`.
 
-Todo
------
+```shell
+git clone git@github.com:archf/ansible-ntpd.git /path/to/roles_path
+```
 
-- add peer support
-- improve statistics configuration
+But I often add it as a submdule in a given `playbook_dir` repository.
 
-License
--------
+```shell
+git submodule add git@github.com:archf/ansible-ntpd.git <playbook_dir>/roles/ntpd
+```
 
-BSD
+As the role is not managed by Ansible Galaxy, you do not have to specify the
+github user account.
 
-Author Information
-------------------
+Basic usage is:
 
-Felix Archambault
+```yaml
+- hosts: all
+  roles:
+  - role: ntpd
+```
+
+## Ansible role dependencies
+
+None.
+
+## Todo
+
+  * peer support?
+  * improve statistics configuration
+
+## License
+
+BSD.
+
+## Author Information
+
+Felix Archambault.
+
+## Role stack
+
+This role was carefully selected to be part an ultimate deck of roles to manage
+your infrastructure.
+
+All roles' documentation is wrapped in this [convenient guide](http://127.0.0.1:8000/).
+
+
+---
+This README was generated using ansidoc. This tool is available on pypi!
+
+```shell
+pip3 install ansidoc
+
+# validate by running a dry-run (will output result to stdout)
+ansidoc --dry-run <rolepath>
+
+# generate you role readme file
+ansidoc <rolepath>
+```
+
+You can even use it programatically from sphinx. Check it out.
