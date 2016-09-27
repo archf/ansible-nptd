@@ -13,9 +13,8 @@ driftfile /var/lib/ntp/drift
 # kod: a “Kiss-o'-death” packet is to be sent to reduce unwanted queries
 
 # Apply tight default settings wich we are going to loosen with exceptions.
-
-# Permit time synchronization with our time source, but do not
-# permit the source to query or modify the service on this system.
+# By default, permit time synchronization with our time source, but do not
+# permit the source to query or modify the client.
 restrict -4 default limited kod nomodify notrap nopeer noquery
 restrict -6 default limited kod nomodify notrap nopeer noquery
 
@@ -23,6 +22,7 @@ restrict -6 default limited kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 
+# Relax access on a per network or IP basis.
 {% for i in ntpd_restrict %}
 {{ i }}
 {% endfor %}
@@ -69,7 +69,6 @@ requestkey  {{ ntpd_requestkey }}
 {% if ntpd_controlkey is defined %}
 controlkey {{ ntpd_controlkey }}
 {% endif %}
-
 {% endif %}
 
 # Enable this if you want statistics to be logged to disk.
@@ -90,4 +89,4 @@ filegen clockstats file clockstats type day enable
 
 # logging (The default is the system log file)
 logfile /var/log/ntp.log
-logconfig =all
+logconfig = all

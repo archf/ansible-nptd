@@ -3,31 +3,29 @@
 # sequence of commands to validate ntpd clients and
 # server behavior
 
+TARGET=$1
+
 # check sources
-echo 'display sources information:'
+echo 'show list of peers'
 echo
-ntpq -p
+ntpq -p ${TARGET}
 echo
 echo 'show sysinfo':
 echo
-ntpdc -c sysinfo
+ntpdc -c sysinfo ${TARGET}
 echo
 echo 'show systats':
 echo
-ntpdc -c sysstats
+ntpdc -c sysstats ${TARGET}
 echo
 echo 'show iostats':
 echo
-ntpdc -c iostats
-echo
-echo 'show interface stats':
-echo
-# ntpdc -c ifstats
+ntpdc -c iostats ${TARGET}
 echo
 echo 'show timerstats':
 echo
-ntpdc -c timerstats
+ntpdc -c timerstats ${TARGET}
 echo
 echo 'traffic counts collected and maintained by the monitor facility':
 echo
-ntpdc -c monlist
+ntpdc -c monlist ${TARGET}
