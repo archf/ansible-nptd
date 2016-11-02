@@ -39,18 +39,6 @@ ntpd_svc_name: ntp
 
 ```
 
-Variables loaded from `vars/RedHat.yml`.
-
-```yaml
-ntpd_pkgs:
-  - ntp
-
-ntpd_svc_name: ntpd
-
-ntpd_keysfile: "/etc/ntp/keys"
-
-```
-
 Variables loaded from `vars/Debian.yml`.
 
 ```yaml
@@ -58,6 +46,18 @@ ntpd_pkgs:
   - ntp
 
 ntpd_svc_name: ntp
+
+ntpd_keysfile: "/etc/ntp/keys"
+
+```
+
+Variables loaded from `vars/RedHat.yml`.
+
+```yaml
+ntpd_pkgs:
+  - ntp
+
+ntpd_svc_name: ntpd
 
 ntpd_keysfile: "/etc/ntp/keys"
 
